@@ -26,8 +26,11 @@ def testing():
 
     print(random_entry[0])
     print(random_entry[1])
-    plastic_color_prefix = ["Ocean", "Light", "Goose", "East", "West", "North", "South", "Austrian", " Exotic", "Coco"]
-    plastic_color_suffixes = ["Tight", "Taint", "Star", "Heavy", "Thick", "Elastic", "Warm"]
+    plastic_color_prefix = ["Ocean", "Light", "Goose", "East", "West", "North", "South", "Austrian", " Exotic", "Coco"
+                            "Emerald", "Ruby", "Cobra", "Bear", "Norway", "Baltic", "Sugar"]
+
+    plastic_color_suffixes = ["Tight", "Taint", "Star", "Heavy", "Thick", "Elastic", "Warm", "Sport", "Dynamic",
+                              "Carbon"]
 
     print(random.choice(plastic_color_prefix) + random_entry[0] + random.choice(plastic_color_suffixes))
 
