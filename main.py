@@ -528,10 +528,10 @@ def print_job_transactions():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     #testing()
-    #client_transactions()
-    #plastic_colors_transactions()
-    #artist_transactions()
-    #sketches_transactions()
-    #order_transactions()
-    #printer_transactions()
+    client_transactions()
+    plastic_colors_transactions()
+    artist_transactions()
+    sketches_transactions()
+    order_transactions()
+    printer_transactions()
     print_job_transactions()
