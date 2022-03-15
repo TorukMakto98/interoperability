@@ -2,6 +2,10 @@
 import psycopg2
 import names
 import random
+import pandas
+import json
+from datetime import datetime, timezone
+from xml.dom import minidom
 
 # environmental variables (mac)
 # DB_NAME = "postgres"
@@ -33,6 +37,38 @@ def testing():
                               "Carbon"]
 
     print(random.choice(plastic_color_prefix) + random_entry[0] + random.choice(plastic_color_suffixes))
+
+
+    time_list = pandas.date_range(start="2018-09-09", end="2022-02-02")
+    time = random.choice(time_list)
+    print(time)
+
+    # create gcode xml
+    root = minidom.Document()
+
+    xml = root.createElement('files')
+    root.appendChild(xml)
+
+    doc = root.createElement('file')
+    xml.appendChild(doc)
+
+    formatChild = root.createElement('format')
+    formatChild.setAttribute('type',
+                           f"{random.choice(['gcode', 'AMF', 'OBJ', '3MF'])}")
+    doc.appendChild(formatChild)
+
+    sizeChild = root.createElement('size')
+    sizeChild.setAttribute('memory_unit',
+                           f"{random.choice(['Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'])}")
+    # nameChild = root.createElement('filename')
+    # doc.appendChild(nameChild)
+    # doc.appendChild(root.createTextNode('Test'))
+
+    doc.appendChild(sizeChild)
+
+    xml_str = root.toprettyxml(indent="\t")
+    print(xml_str)
+
 
 
 def client_transactions():
@@ -94,8 +130,6 @@ def plastic_colors_transactions():
     plastic_color_prefix = ["Ocean", "Light", "Goose", "East", "West", "North", "South", "Austrian", "Exotic", "Coco"]
     plastic_color_suffixes = ["Tight", "Taint", "Star", "Heavy", "Thick", "Elastic", "Warm"]
 
-
-
     while (i < 777):
 
         # define plastic colors id
@@ -140,8 +174,364 @@ def plastic_colors_transactions():
         print("plastic colors entity is loaded with data set")
 
 
+def artist_transactions():
+    i = 0
+    artist_id_list = [j for j in range(100000, 100800)]
+
+    while (i < 777):
+
+        # define first- and lastnames
+        firstname = names.get_first_name()
+        lastname = names.get_last_name()
+
+        #define artist Id
+        artist_id = artist_id_list[i]
+
+        # define age
+        age = random.randrange(22, 50, 20)
+
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+        # create mail address
+        mail = f"{firstname}.{lastname}@business-{lastname}.com"
+
+        # create hourly fee
+        hourly_fee_list = [12.99, 14.99, 25.99, 43.99, 120.99, 78.99, 34.99, 67.99, 54.99, 55.99, 66.99, 78.99, 121.99]
+        hourly_fee = random.choice(hourly_fee_list)
+
+        # insert data record
+        cur = conn.cursor()
+        # execute insert command
+        cur.execute(f"INSERT INTO artist VALUES ({artist_id}, '{firstname}', '{lastname}', {age}, '{mail}', {hourly_fee});")
+        # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+
+        # increase counter with one
+        i += 1
+        print(i)
+
+        continue
+
+    else:
+        print("3d artist entity is loaded with dataset")
+
+
+def sketches_transactions():
+
+    i = 0
+    sketches_id_list = [j for j in range(300000, 300800)]
+    artist_id_list = [j for j in range(100000, 100776)]
+    client_id_list = [j for j in range(200000, 200776)]
+    #date_time = datetime.now(timezone.utc)
+    figure_theme_list = ["action figure", "car", "sword", "weapon", "plane", "building", "tool"]
+
+    while (i < 777):
+        # define sketches id
+        sketches_id = sketches_id_list[i]
+        # define created date & deadline
+
+        # define artist id
+        artist_id = random.choice(artist_id_list)
+
+        # define client id
+        client_id = random.choice(client_id_list)
+
+        # define figure theme
+        figure_theme = random.choice(figure_theme_list)
+
+        # define estimated costs
+        estimated_costs = random.randrange(100, 10000, 25)
+
+        time_list = pandas.date_range(start="2018-09-09", end="2022-02-02")
+        time = random.choice(time_list)
+
+        # create gcode xml
+        root = minidom.Document()
+
+        xml = root.createElement('files')
+        root.appendChild(xml)
+
+        doc = root.createElement('file')
+        xml.appendChild(doc)
+
+        formatChild = root.createElement('format')
+        formatChild.setAttribute('type',
+                                 f"{random.choice(['gcode', 'AMF', 'OBJ', '3MF'])}")
+        doc.appendChild(formatChild)
+
+        sizeChild = root.createElement('size')
+        sizeChild.setAttribute('memory_unit',
+                               f"{random.choice(['Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'])}")
+        doc.appendChild(sizeChild)
+
+        xml_str = root.toprettyxml(indent="\t")
+
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+        # insert data record
+        cur = conn.cursor()
+
+        # execute insert command
+        cur.execute('INSERT INTO sketches VALUES (%s , %s, %s, %s , %s, %s, %s, %s )', (sketches_id, client_id, artist_id, figure_theme, time, estimated_costs, time, xml_str))
+
+        # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+
+        # increase counter with one
+        i += 1
+        print(i)
+
+        continue
+
+    else:
+        print("sketches entity is loaded with data set")
+
+
+def order_transactions():
+    i = 0
+    order_id_list = [j for j in range(400000, 400800)]
+    client_id_list = [j for j in range(200000, 200776)]
+
+    while (i < 777):
+        # define sketches id
+        order_id = order_id_list[i]
+
+        # define order value
+        order_value = random.randrange(10, 1000, 13)
+
+        # define client id
+        client_id = random.choice(client_id_list)
+
+        # define postcode
+        postcode = random.choice([1010, 1020, 1030, 1040, 1050, 1060, 1070, 1080, 1090, 1100, 1110, 1120, 1130, 1140,
+                                  1150, 1160, 1170, 1180, 1190, 1200, 1210, 1220])
+
+        # define street names
+        street_prefix = ["Döblinger", "Hauptmann", "Dynamo", "Hoffenheim", "Österreich", "Kärntner", "Millstätter",
+                         "Deli", "Hardt", "Pukorny", "Dresdner", "Berliner", "Hamburger", "Schalker", "Energie"]
+        street_mid = ["straße", "weg", "gasse", "platz", "wall", "grund"]
+        street_nr = random.randrange(1, 100, 1)
+        street = random.choice(street_prefix)+random.choice(street_mid)+str(f" {street_nr}")
+
+
+        # define payment information
+
+        payment_method = random.choice(["PayPal", "CreditCard", "Klarna", "Billing", "Cash", "Installment"])
+        billing_country = random.choice(["Austria", "Germany", "Switzerland", "Denmark", "France", "Italy", "Poland"])
+
+        payment_information = {
+            "information": {
+                "payment": {
+                    "method":payment_method,
+                    "value": order_value,
+                    "billing_country": billing_country
+                }
+            }
+        }
+
+        payment_information = json.dumps(payment_information)
+
+        # define city
+        city = random.choice(["Wien", "Graz", "St.Pölten", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach"])
+
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+        # insert data record
+        cur = conn.cursor()
+
+        # execute insert command
+        cur.execute('INSERT INTO orders VALUES (%s , %s, %s, %s , %s, %s, %s )',
+                    (order_id, client_id, order_value, postcode, payment_information, street, city))
+
+        # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+
+        # increase counter with one
+        i += 1
+        print(i)
+
+        continue
+
+    else:
+        print("order entity is loaded with data set")
+
+
+def printer_transactions():
+    i = 0
+    printer_id_list = [j for j in range(600000, 600800)]
+    client_id_list = [j for j in range(200000, 200776)]
+    printer_name_prefix = ["HXC-", "XS-", "XER-", "DYN-", "KOL-", "JUSQ-", "PRI-", "X21-", "SSDQ-", "AQW-", "SSC-","A-"]
+    printer_name_mid = ["LIGHT-", "SA122-", "K90-", "PRINTE21-", "LKG0-", "L32-", "KOL12-", "91", "H2", "ÖPO2", "D2-"]
+    printer_name_suffix = ["PRINTER", "CUS", "ZUG", "XEROX", "SAMSUNG", "HP", "KYOCERA", "LITE", "ELTIE", "FINA"]
+
+    while (i < 777):
+        # define order id
+        printer = printer_id_list[i]
+
+        # define client id
+        client_id = random.choice(client_id_list)
+
+        # define printer name
+        printer_name = random.choice(printer_name_prefix)+\
+                       random.choice(printer_name_mid)+\
+                       random.choice(printer_name_suffix)
+
+        # define WLAN status
+        wlan = random.choice([True, False])
+
+        # define printer category
+        category = random.choice(["Huge Workstation", "Normal Workstation", "Small Workstation", "Normal Printer"])
+
+        # define year of creation
+        year_of_creation = random.choice(["2021", "2020", "2019", "2018", "2017", "2014", "2013", "2010", "2009", "2007"])
+
+        # define supplier information
+        supplier_name = random.choice(["Media Supply", "Printer Experts", "Amazon Local", "MediaMarket", "CyberExpert"])
+        street_prefix = ["Doeblinger", "Hauptmann", "Dynamo", "Hoffenheim", "Oesterreich", "Kärntner", "Millstaetter",
+                         "Deli", "Hardt", "Pukorny", "Dresdner", "Berliner", "Hamburger", "Schalker", "Energie"]
+        street_mid = ["straße", "weg", "gasse", "platz", "wall", "grund"]
+        street_nr = random.randrange(1, 100, 1)
+        street = random.choice(street_prefix)+random.choice(street_mid)+str(f" {street_nr}")
+        city = random.choice(["Wien", "Graz", "St.Poelten", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach"])
+        country = random.choice(["Austria", "Germany", "Switzerland", "Denmark", "France", "Italy", "Poland"])
+
+        supplier = {
+            "supplier_information": {
+                "name": supplier_name,
+                "address": {
+                    "city": city,
+                    "street": street,
+                    "country": country
+                }
+            }
+        }
+
+        supplier = json.dumps(supplier)
+
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+        # insert data record
+        cur = conn.cursor()
+
+        # execute insert command
+        cur.execute('INSERT INTO printers VALUES (%s , %s, %s, %s , %s, %s, %s )',
+                    (printer, client_id, printer_name, wlan, category, year_of_creation, supplier))
+
+        # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+
+        # increase counter with one
+        i += 1
+        print(i)
+
+        continue
+    else:
+        print("printer entity is loaded with dataset")
+
+
+def print_job_transactions():
+    i = 0
+    print_job_id_list = [j for j in range(700000, 700800)]
+    printer_id_list = [j for j in range(600000, 600776)]
+    while (i < 777):
+        # define print job id
+        print_job_id = print_job_id_list[i]
+
+        # define printer id
+        printer_id = random.choice(printer_id_list)
+
+        # define waiting list position
+        waiting_list_position = random.randrange(1,100,1)
+
+        # define current heat
+        current_heat = random.randrange(40, 119, 2)
+
+        # define total printing costs
+        printing_costs = random.randrange(100, 2500, 20)
+
+        # define status
+        status = random.choice(["not started", "in progress", "failed", "finished"])
+
+        # define processing time
+        processing_time = random.randrange(15, 300, 3)
+
+        # define stl file information
+        root = minidom.Document()
+
+        xml = root.createElement('files')
+        root.appendChild(xml)
+
+        doc = root.createElement('file')
+        xml.appendChild(doc)
+
+        formatChild = root.createElement('format')
+        formatChild.setAttribute('type',"STL")
+        doc.appendChild(formatChild)
+
+        sizeChild = root.createElement('size')
+        sizeChild.setAttribute('memory_unit',
+                               f"{random.choice(['Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'])}")
+        doc.appendChild(sizeChild)
+
+        processingTimeChild = root.createElement('processing_time')
+        processingTimeChild.setAttribute('time', f"{processing_time}")
+        doc.appendChild(processingTimeChild)
+
+        xml_str = root.toprettyxml(indent="\t")
+
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+        # insert data record
+        cur = conn.cursor()
+
+        # execute insert command
+        cur.execute('INSERT INTO print_job VALUES (%s , %s, %s, %s , %s, %s, %s, %s )',
+                    (print_job_id, printer_id, waiting_list_position, current_heat, printing_costs, status, xml_str, processing_time))
+
+        # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+
+        # increase counter with one
+        i += 1
+        print(i)
+
+        continue
+    else:
+        print("print job entity is loaded with dataset")
+
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #client_transactions()
-    plastic_colors_transactions()
     #testing()
+    #client_transactions()
+    #plastic_colors_transactions()
+    #artist_transactions()
+    #sketches_transactions()
+    #order_transactions()
+    #printer_transactions()
+    print_job_transactions()
