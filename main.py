@@ -50,6 +50,7 @@ def testing():
     root.appendChild(xml)
 
     doc = root.createElement('file')
+    doc.setAttribute('id', f"{random.choice([j for j in range(900000, 900800)])}")
     xml.appendChild(doc)
 
     formatChild = root.createElement('format')
@@ -58,12 +59,10 @@ def testing():
     doc.appendChild(formatChild)
 
     sizeChild = root.createElement('size')
+    sizeText = root.createTextNode(f"{random.choice([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])}")
     sizeChild.setAttribute('memory_unit',
                            f"{random.choice(['Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'])}")
-    # nameChild = root.createElement('filename')
-    # doc.appendChild(nameChild)
-    # doc.appendChild(root.createTextNode('Test'))
-
+    sizeChild.appendChild(sizeText)
     doc.appendChild(sizeChild)
 
     xml_str = root.toprettyxml(indent="\t")
@@ -203,7 +202,8 @@ def artist_transactions():
         # insert data record
         cur = conn.cursor()
         # execute insert command
-        cur.execute(f"INSERT INTO artist VALUES ({artist_id}, '{firstname}', '{lastname}', {age}, '{mail}', {hourly_fee});")
+        cur.execute(f"INSERT INTO artist VALUES "
+                    f"({artist_id}, '{firstname}', '{lastname}', {age}, '{mail}', {hourly_fee});")
         # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
         conn.commit()
         cur.close()
@@ -257,6 +257,7 @@ def sketches_transactions():
         root.appendChild(xml)
 
         doc = root.createElement('file')
+        doc.setAttribute('id', f"{random.choice([j for j in range(900000, 900800)])}")
         xml.appendChild(doc)
 
         formatChild = root.createElement('format')
@@ -265,8 +266,10 @@ def sketches_transactions():
         doc.appendChild(formatChild)
 
         sizeChild = root.createElement('size')
+        sizeText = root.createTextNode(f"{random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])}")
         sizeChild.setAttribute('memory_unit',
                                f"{random.choice(['Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'])}")
+        sizeChild.appendChild(sizeText)
         doc.appendChild(sizeChild)
 
         xml_str = root.toprettyxml(indent="\t")
@@ -278,7 +281,8 @@ def sketches_transactions():
         cur = conn.cursor()
 
         # execute insert command
-        cur.execute('INSERT INTO sketches VALUES (%s , %s, %s, %s , %s, %s, %s, %s )', (sketches_id, client_id, artist_id, figure_theme, time, estimated_costs, time, xml_str))
+        cur.execute('INSERT INTO sketches VALUES (%s , %s, %s, %s , %s, %s, %s, %s )',
+                    (sketches_id, client_id, artist_id, figure_theme, time, estimated_costs, "2022-04-23", xml_str))
 
         # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
         conn.commit()
@@ -527,11 +531,11 @@ def print_job_transactions():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #testing()
-    client_transactions()
-    plastic_colors_transactions()
-    artist_transactions()
+    # testing()
+    # client_transactions()
+    # plastic_colors_transactions()
+    # artist_transactions()
     sketches_transactions()
-    order_transactions()
-    printer_transactions()
-    print_job_transactions()
+    # order_transactions()
+    # printer_transactions()
+    # print_job_transactions()
