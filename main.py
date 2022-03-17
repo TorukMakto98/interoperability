@@ -4,20 +4,21 @@ import names
 import random
 import pandas
 import json
+import config
 from datetime import datetime, timezone
 from xml.dom import minidom
 
 # environmental variables (mac)
-# DB_NAME = "postgres"
-# DB_HOST = "localhost"
-# DB_USER = "mbarkows"
-# DB_PASSWORD = "password"
-
-# environmental variables (windows)
 DB_NAME = "postgres"
 DB_HOST = "localhost"
-DB_USER = "postgres"
-DB_PASSWORD = "postgres"
+DB_USER = "mbarkows"
+DB_PASSWORD = "password"
+
+# environmental variables (windows)
+# DB_NAME = "postgres"
+# DB_HOST = "localhost"
+# DB_USER = "postgres"
+# DB_PASSWORD = "postgres"
 
 
 def testing():
@@ -69,8 +70,131 @@ def testing():
     print(xml_str)
 
 
+def create_tables():
+    conn = None
+    try:
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+        # insert data record
+        cur = conn.cursor()
+
+        # execute insert command
+#        cur.execute((
+#         """
+#         CREATE TABLE client(
+#             client_Id INTEGER PRIMARY KEY,
+#             firstname VARCHAR(70),
+#             lastname VARCHAR(70),
+#             budget FLOAT,
+#             mail_address VARCHAR(80),
+#             job_category VARCHAR(80)
+#         )
+#         """,
+#         """
+#         CREATE TABLE plastic_colors(
+#             plastic_colors_Id INTEGER PRIMARY KEY,
+#             fk_client_Id INTEGER,
+#             name VARCHAR(70),
+#             uv_resistant BOOLEAN,
+#             html_code VARCHAR,
+#             polymer_based BOOLEAN,
+#             costs_per_liter FLOAT,
+#             FOREIGN KEY (fk_client_Id) REFERENCES client(client_Id)
+# )
+#         """,
+#         """
+#         CREATE TABLE artist(
+#             artist_Id INTEGER PRIMARY KEY,
+#             firstname VARCHAR,
+#             lastname VARCHAR,
+#             age INTEGER,
+#             mail VARCHAR,
+#             hourly_fee FLOAT
+#         )
+#         """,
+#         """
+#         CREATE TABLE sketches (
+#             sketches_Id INTEGER PRIMARY KEY,
+#             fk_client_Id INTEGER,
+#             fk_artist_Id INTEGER,
+#             figure_theme VARCHAR,
+#             created_date DATE,
+#             estimated_costs INTEGER,
+#             deadline_for_creation DATE,
+#             gcode_file xml,
+#             FOREIGN KEY (fk_client_Id) REFERENCES client(client_id),
+#             FOREIGN KEY (fk_artist_Id) REFERENCES artist(artist_Id)
+#         )
+#         """,
+#         """
+#         CREATE TABLE order (
+#             order_Id INTEGER PRIMARY KEY,
+#             fk_client_Id INTEGER,
+#             order_value INTEGER,
+#             postcode INTEGER,
+#             payment_information json,
+#             street VARCHAR,
+#             city VARCHAR,
+#             FOREIGN KEY (fk_client_Id) REFERENCES client(client_id),
+#         )
+#         """,
+#         """
+#         CREATE TABLE printer (
+#             printer_Id INTEGER PRIMARY KEY,
+#             fk_client_Id INTEGER,
+#             printer_name VARCHAR,
+#             wlan BOOLEAN,
+#             category VARCHAR,
+#             year_of_creation INTEGER,
+#             supplier json,
+#             FOREIGN KEY (fk_client_Id) REFERENCES client(client_id),
+#         )
+#         """,
+#         """
+#         CREATE TABLE print_job (
+#             print_job_Id INTEGER PRIMARY KEY,
+#             fk_printer_Id INTEGER,
+#             waiting_list_position INTEGER,
+#             current_heat INTEGER,
+#             printing_costs INTEGER,
+#             status VARCHAR,
+#             stl_file xml,
+#             processing_time INTEGER,
+#             FOREIGN KEY (fk_printer_Id) REFERENCES printer(printer_Id),
+#         )
+#         """))
+        cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
 
 def client_transactions():
+
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"CREATE TABLE client( client_Id INTEGER PRIMARY KEY,firstname VARCHAR(70),lastname VARCHAR(70),"
+                f"budget FLOAT, mail_address VARCHAR(80), job_category VARCHAR(80))")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
+
     i = 0
     id = [j for j in range(200000, 200800)]
 
@@ -118,6 +242,20 @@ def client_transactions():
 
 
 def plastic_colors_transactions():
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"CREATE TABLE plastic_colors(plastic_colors_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,name VARCHAR(70),uv_resistant BOOLEAN,html_code VARCHAR,polymer_based BOOLEAN,costs_per_liter FLOAT,FOREIGN KEY (fk_client_Id) REFERENCES client(client_Id));")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
 
     i = 0
     client_id_list = [j for j in range(200000, 200776)]
@@ -174,6 +312,22 @@ def plastic_colors_transactions():
 
 
 def artist_transactions():
+
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"CREATE TABLE artist( artist_Id INTEGER PRIMARY KEY, firstname VARCHAR, lastname VARCHAR, age INTEGER, mail VARCHAR, hourly_fee FLOAT)")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
+
     i = 0
     artist_id_list = [j for j in range(100000, 100800)]
 
@@ -223,6 +377,23 @@ def artist_transactions():
 
 def sketches_transactions():
 
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"CREATE TABLE sketches (sketches_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,fk_artist_Id INTEGER,"
+                f"figure_theme VARCHAR, created_date DATE, estimated_costs INTEGER,deadline_for_creation DATE,"
+                f"gcode_file xml,FOREIGN KEY (fk_client_Id) REFERENCES client(client_id),"
+                f"FOREIGN KEY (fk_artist_Id) REFERENCES artist(artist_Id))")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
     i = 0
     sketches_id_list = [j for j in range(300000, 300800)]
     artist_id_list = [j for j in range(100000, 100776)]
@@ -302,6 +473,23 @@ def sketches_transactions():
 
 
 def order_transactions():
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"            CREATE TABLE orders (order_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,order_value INTEGER,"
+                f"postcode INTEGER,payment_information json,street VARCHAR,city VARCHAR,"
+                f"FOREIGN KEY (fk_client_Id) REFERENCES client(client_id))")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
+
     i = 0
     order_id_list = [j for j in range(400000, 400800)]
     client_id_list = [j for j in range(200000, 200776)]
@@ -376,6 +564,23 @@ def order_transactions():
 
 
 def printer_transactions():
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"            CREATE TABLE printers (printer_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,"
+                f"printer_name VARCHAR,wlan BOOLEAN,category VARCHAR,year_of_creation INTEGER,supplier json,"
+                f"FOREIGN KEY (fk_client_Id) REFERENCES client(client_id))")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
+
     i = 0
     printer_id_list = [j for j in range(600000, 600800)]
     client_id_list = [j for j in range(200000, 200776)]
@@ -454,6 +659,23 @@ def printer_transactions():
 
 
 def print_job_transactions():
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
+
+    # insert data record
+    cur = conn.cursor()
+
+    # execute insert command
+    cur.execute(f"            CREATE TABLE print_job (print_job_Id INTEGER PRIMARY KEY,fk_printer_Id INTEGER,"
+                f"waiting_list_position INTEGER,current_heat INTEGER,printing_costs INTEGER,status VARCHAR,stl_file xml,"
+                f"processing_time INTEGER,FOREIGN KEY (fk_printer_Id) REFERENCES printers(printer_Id))")
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
+
+    # close connection
+    conn.close()
+
     i = 0
     print_job_id_list = [j for j in range(700000, 700800)]
     printer_id_list = [j for j in range(600000, 600776)]
@@ -531,11 +753,11 @@ def print_job_transactions():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # testing()
-    # client_transactions()
-    # plastic_colors_transactions()
-    # artist_transactions()
-    sketches_transactions()
-    # order_transactions()
-    # printer_transactions()
-    # print_job_transactions()
+    #create_tables()
+    #client_transactions()
+    #plastic_colors_transactions()
+    #artist_transactions()
+    #sketches_transactions()
+    #order_transactions()
+    #printer_transactions()
+    print_job_transactions()
