@@ -21,53 +21,34 @@ DB_PASSWORD = "postgres"
 
 
 def testing():
-    plastic_colors_dict = [["PowderBlue", "#CD853F"], ["PaleVioletRed", "#DB7093"], ["PapayaWhip", "#FFEFD5"],
-                            ["RebeccaPurple", "#663399"], ["SeaGreen", "#2E8B57"], ["MidnightBlue", "#191970"],
-                            ["Moccasin", "#FFE4B5"], ["MediumAquaMarine", "#66CDAA"], ["LightCoral", "#F08080"],
-                            ["DarkOliveGreen", "#556B2F"], ["DarkOrange", "#FF8C00"], ["Crimson", "#DC143C"]]
+    client_id_list = [j for j in range(200000, 200776)]
+    client_id = random.choice(client_id_list)
+    # connect to database
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
 
-    random_entry = random.choice(plastic_colors_dict)
+    # insert data record
+    cur = conn.cursor()
 
-    print(random_entry[0])
-    print(random_entry[1])
-    plastic_color_prefix = ["Ocean", "Light", "Goose", "East", "West", "North", "South", "Austrian", " Exotic", "Coco"
-                            "Emerald", "Ruby", "Cobra", "Bear", "Norway", "Baltic", "Sugar"]
+    # execute insert command
+    cur.execute(f"SELECT * FROM orders WHERE fk_client_Id = {client_id}")
+    records = cur.fetchall()
 
-    plastic_color_suffixes = ["Tight", "Taint", "Star", "Heavy", "Thick", "Elastic", "Warm", "Sport", "Dynamic",
-                              "Carbon"]
+    if records:
+        print("ist was drin")
+        print("Straße: ", records[0][5])
+        print("Stadt: ", records[0][6])
+        print("Postleitahl: ", records[0][3])
+        print(records)
+    else:
+        print("nichts drin")
+        print(records)
 
-    print(random.choice(plastic_color_prefix) + random_entry[0] + random.choice(plastic_color_suffixes))
+    # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+    conn.commit()
+    cur.close()
 
-
-    time_list = pandas.date_range(start="2018-09-09", end="2022-02-02")
-    time = random.choice(time_list)
-    print(time)
-
-    # create gcode xml
-    root = minidom.Document()
-
-    xml = root.createElement('files')
-    root.appendChild(xml)
-
-    doc = root.createElement('file')
-    doc.setAttribute('id', f"{random.choice([j for j in range(900000, 900800)])}")
-    xml.appendChild(doc)
-
-    formatChild = root.createElement('format')
-    formatChild.setAttribute('type',
-                           f"{random.choice(['gcode', 'AMF', 'OBJ', '3MF'])}")
-    doc.appendChild(formatChild)
-
-    sizeChild = root.createElement('size')
-    sizeText = root.createTextNode(f"{random.choice([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])}")
-    sizeChild.setAttribute('memory_unit',
-                           f"{random.choice(['Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte', 'Petabyte'])}")
-    sizeChild.appendChild(sizeText)
-    doc.appendChild(sizeChild)
-
-    xml_str = root.toprettyxml(indent="\t")
-    print(xml_str)
-
+    # close connection
+    conn.close()
 
 def client_transactions():
 
@@ -212,7 +193,8 @@ def artist_transactions():
     cur = conn.cursor()
 
     # execute insert command
-    cur.execute(f"CREATE TABLE artist( artist_Id INTEGER PRIMARY KEY, firstname VARCHAR, lastname VARCHAR, age INTEGER, mail VARCHAR, hourly_fee FLOAT)")
+    cur.execute(f"CREATE TABLE artist( artist_Id INTEGER PRIMARY KEY, firstname VARCHAR, lastname VARCHAR, "
+                f"age INTEGER, mail VARCHAR, hourly_fee FLOAT)")
     # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
     conn.commit()
     cur.close()
@@ -247,6 +229,7 @@ def artist_transactions():
 
         # insert data record
         cur = conn.cursor()
+
         # execute insert command
         cur.execute(f"INSERT INTO artist VALUES "
                     f"({artist_id}, '{firstname}', '{lastname}', {age}, '{mail}', {hourly_fee});")
@@ -375,7 +358,7 @@ def order_transactions():
     cur = conn.cursor()
 
     # execute insert command
-    cur.execute(f"            CREATE TABLE orders (order_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,order_value INTEGER,"
+    cur.execute(f"CREATE TABLE orders (order_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,order_value INTEGER,"
                 f"postcode INTEGER,payment_information json,street VARCHAR,city VARCHAR,"
                 f"FOREIGN KEY (fk_client_Id) REFERENCES client(client_id))")
     # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
@@ -398,28 +381,53 @@ def order_transactions():
 
         # define client id
         client_id = random.choice(client_id_list)
+        # query for checking if client id already exists in db
+        # connect to database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
 
-        # define postcode
-        postcode = random.choice([1010, 1020, 1030, 1040, 1050, 1060, 1070, 1080, 1090, 1100, 1110, 1120, 1130, 1140,
-                                  1150, 1160, 1170, 1180, 1190, 1200, 1210, 1220])
+        # insert data record
+        cur = conn.cursor()
 
-        # define street names
-        street_prefix = ["Döblinger", "Hauptmann", "Dynamo", "Hoffenheim", "Österreich", "Kärntner", "Millstätter",
-                         "Deli", "Hardt", "Pukorny", "Dresdner", "Berliner", "Hamburger", "Schalker", "Energie"]
-        street_mid = ["straße", "weg", "gasse", "platz", "wall", "grund"]
-        street_nr = random.randrange(1, 100, 1)
-        street = random.choice(street_prefix)+random.choice(street_mid)+str(f" {street_nr}")
+        # execute insert command
+        cur.execute(f"SELECT * FROM orders WHERE fk_client_Id = {client_id}")
+        records = cur.fetchall()
 
+        # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
+        conn.commit()
+        cur.close()
+
+        # close connection
+        conn.close()
+
+        # if yes get the address data and put it into the insert command and the json element
+        if records:
+            postcode = records[0][3]
+            city = records[0][6]
+            street = records[0][5]
+
+        else:
+            # define postcode
+            postcode = random.choice([1010, 1020, 1030, 1040, 1050, 1060, 1070, 1080, 1090, 1100, 1110, 1120, 1130, 1140,
+                                      1150, 1160, 1170, 1180, 1190, 1200, 1210, 1220])
+
+            # define street names
+            street_prefix = ["Döblinger", "Hauptmann", "Dynamo", "Hoffenheim", "Österreich", "Kärntner", "Millstätter",
+                             "Deli", "Hardt", "Pukorny", "Dresdner", "Berliner", "Hamburger", "Schalker", "Energie"]
+            street_mid = ["straße", "weg", "gasse", "platz", "wall", "grund"]
+            street_nr = random.randrange(1, 100, 1)
+            street = random.choice(street_prefix)+random.choice(street_mid)+str(f" {street_nr}")
+
+            # define city
+            city = random.choice(["Wien", "Graz", "St.Pölten", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach"])
 
         # define payment information
-
         payment_method = random.choice(["PayPal", "CreditCard", "Klarna", "Billing", "Cash", "Installment"])
         billing_country = random.choice(["Austria", "Germany", "Switzerland", "Denmark", "France", "Italy", "Poland"])
 
         payment_information = {
             "information": {
                 "payment": {
-                    "method":payment_method,
+                    "method": payment_method,
                     "value": order_value,
                     "billing_country": billing_country
                 }
@@ -427,9 +435,6 @@ def order_transactions():
         }
 
         payment_information = json.dumps(payment_information)
-
-        # define city
-        city = random.choice(["Wien", "Graz", "St.Pölten", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach"])
 
         # connect to database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
@@ -648,6 +653,7 @@ def print_job_transactions():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    # testing() --> for testing functions and logics
     client_transactions()
     plastic_colors_transactions()
     artist_transactions()
