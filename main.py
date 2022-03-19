@@ -50,6 +50,7 @@ def testing():
     # close connection
     conn.close()
 
+
 def client_transactions():
 
     # connect to database
@@ -83,7 +84,8 @@ def client_transactions():
         budget = random.randrange(100, 1500, 50)
 
         # creating random jobs
-        job_list = ["Software Engineer", "DevOps Engineer", "Teacher", "Product Manager", "Project Manager", "HR Specialist"]
+        job_list = ["Software Engineer", "DevOps Engineer", "Teacher", "Product Manager", "Project Manager",
+                    "HR Specialist"]
         job = random.choice(job_list)
 
         # creating random client_Id
