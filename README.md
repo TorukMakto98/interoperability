@@ -13,3 +13,8 @@ variables to login, here are they:
 If you like to setup the database over the code, please create first a new database locally on your server, change the 
 environmental variables in the code (line 16-20) and start the main class. The script will create all necessary tables
 and generate the data.
+
+You can access the code over Github under the following link
+    
+    https://github.com/TorukMakto98/interoperability
+

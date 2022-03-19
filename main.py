@@ -4,7 +4,6 @@ import names
 import random
 import pandas
 import json
-from datetime import datetime, timezone
 from xml.dom import minidom
 
 # environmental variables (mac)
