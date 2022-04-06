@@ -97,7 +97,7 @@ def client_transactions():
         cur = conn.cursor()
 
         # execute insert command
-        cur.execute(f"INSERT INTO client VALUES ({client_id}, '{firstname}', '{lastname}', {budget}, '{job}', '{mail}');")
+        cur.execute(f"INSERT INTO client VALUES ({client_id}, '{firstname}', '{lastname}', {budget}, '{mail}', '{job}');")
         #cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
         conn.commit()
         cur.close()
@@ -359,7 +359,7 @@ def order_transactions():
     cur = conn.cursor()
 
     # execute insert command
-    cur.execute(f"CREATE TABLE orders (order_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,order_value INTEGER,"
+    cur.execute(f"CREATE TABLE orders (order_Id INTEGER PRIMARY KEY,fk_client_Id INTEGER,order_value FLOAT,"
                 f"postcode INTEGER,payment_information json,street VARCHAR,city VARCHAR,"
                 f"FOREIGN KEY (fk_client_Id) REFERENCES client(client_id))")
     # cur.execute("CREATE TABLE student (id INTEGER , name VARCHAR);")
@@ -378,7 +378,7 @@ def order_transactions():
         order_id = order_id_list[i]
 
         # define order value
-        order_value = random.randrange(10, 1000, 13)
+        order_value = random.uniform(100.99, 5000.99)
 
         # define client id
         client_id = random.choice(client_id_list)
@@ -479,6 +479,7 @@ def printer_transactions():
     conn.commit()
     cur.close()
 
+    # close connection
     # close connection
     conn.close()
 
