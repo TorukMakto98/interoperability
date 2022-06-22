@@ -1,0 +1,38 @@
+[
+  {
+    "progress": "Parts received",
+    "completion": 5
+  },
+  {
+    "progress": "RAM installed on motherboard",
+    "completion": 15
+  },
+  {
+    "progress": "CPU installed on motherboard",
+    "completion": 37
+  },
+  {
+    "progress": "Motherboard mounted in case",
+    "completion": 65
+  },
+  {
+    "progress": "Cable management completed",
+    "completion": 80
+  },
+  {
+    "progress": "LEDs connected",
+    "completion": 90
+  },
+  {
+    "progress": "Process check",
+    "completion": 95
+  },
+  {
+    "progress": "Process evaluated",
+    "completion": 99
+  },
+    {
+    "progress": "Process completed",
+    "completion": 100
+  }
+]

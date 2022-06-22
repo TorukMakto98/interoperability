@@ -1,0 +1,438 @@
+<testset xmlns="http://cpee.org/ns/properties/2.0">
+              <executionhandler>ruby</executionhandler>
+              <dataelements/>
+              <endpoints>
+                <teil1>http://131.130.122.25:9092/api/v1/inventory/cpus/AMD-Ryzen-7-5800X</teil1>
+                <timeout>http://gruppe.wst.univie.ac.at/~mangler/services/timeout.php</timeout>
+                <teil2>http://131.130.122.25:9092/api/v1/inventory/cpu_coolers/NZXT-Kraken-Z-3</teil2>
+                <teil3>http://131.130.122.25:9092/api/v1/inventory/mainboards/MSI-Z390-A-Pro</teil3>
+                <teil4>http://131.130.122.25:9092/api/v1/inventory/ram/DDR4-Corsair-3600MHz-Vengeance-RGB-PRO-SL</teil4>
+                <progress>http://131.130.122.25:9092/api/v1/progress</progress>
+                <correlation>http://131.130.122.25:9092/api/v1/correlator</correlation>
+                <produzieren>http://cpee.org:9350</produzieren>
+              </endpoints>
+              <attributes>
+                <info>IOP Production - a12024366</info>
+                <modeltype>CPEE</modeltype>
+                <theme>preset</theme>
+              </attributes>
+              <description>
+                <description xmlns="http://cpee.org/ns/description/1.0">
+                  <manipulate id="man">
+                    data.pid = Digest::MD5.hexdigest(Kernel::rand().to_s)
+                  </manipulate>
+                  <parallel wait="-1" cancel="last">
+                    <parallel_branch pass="" local="">
+                      <call id="a11" endpoint="teil1">
+                        <parameters>
+                          <label>amount part1</label>
+                          <method>:get</method>
+                          <arguments/>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result">data.teil1 = result["amount"] - 1</finalize>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                      <call id="a21" endpoint="teil1">
+                        <parameters>
+                          <label>set amount part1</label>
+                          <method>:put</method>
+                          <arguments>
+                            <amount>!data.teil1</amount>
+                          </arguments>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result"/>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                    </parallel_branch>
+                    <parallel_branch pass="" local="">
+                      <call id="a12" endpoint="teil2">
+                        <parameters>
+                          <label>amount part2</label>
+                          <method>:get</method>
+                          <arguments/>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result">data.teil2 = result["amount"] - 1</finalize>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                      <call id="a22" endpoint="teil2">
+                        <parameters>
+                          <label>set amount part2</label>
+                          <method>:put</method>
+                          <arguments>
+                            <amount>!data.teil2</amount>
+                          </arguments>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result"/>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                    </parallel_branch>
+                    <parallel_branch pass="" local="">
+                      <call id="a13" endpoint="teil3">
+                        <parameters>
+                          <label>amount part3</label>
+                          <method>:get</method>
+                          <arguments/>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result">data.teil3 = result["amount"] - 1</finalize>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                      <call id="a23" endpoint="teil3">
+                        <parameters>
+                          <label>set amount part3</label>
+                          <method>:put</method>
+                          <arguments>
+                            <amount>!data.teil3</amount>
+                          </arguments>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result"/>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                    </parallel_branch>
+                    <parallel_branch pass="" local="">
+                      <call id="a14" endpoint="teil4">
+                        <parameters>
+                          <label>amount part4</label>
+                          <method>:get</method>
+                          <arguments/>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result">data.teil4 = result["amount"] - 1</finalize>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                      <call id="a24" endpoint="teil4">
+                        <parameters>
+                          <label>set amount part4</label>
+                          <method>:put</method>
+                          <arguments>
+                            <amount>!data.teil4 </amount>
+                          </arguments>
+                          <_context_data_analysis>
+                            <probes/>
+                            <ips/>
+                          </_context_data_analysis>
+                          <report>
+                            <url/>
+                          </report>
+                        </parameters>
+                        <code>
+                          <prepare/>
+                          <finalize output="result"/>
+                          <update output="result"/>
+                          <rescue output="result"/>
+                        </code>
+                        <annotations>
+                          <_timing>
+                            <_timing_weight/>
+                            <_timing_avg/>
+                            <explanations/>
+                          </_timing>
+                          <_notes>
+                            <_notes_general/>
+                          </_notes>
+                        </annotations>
+                        <input/>
+                        <output/>
+                        <implementation>
+                          <description/>
+                        </implementation>
+                        <code>
+                          <description/>
+                        </code>
+                      </call>
+                    </parallel_branch>
+                  </parallel>
+                  <call id="a3" endpoint="produzieren">
+                    <parameters>
+                      <label>produce part</label>
+                      <method>:post</method>
+                      <arguments>
+                        <delegate>!endpoints.progress</delegate>
+                        <async>!endpoints.correlation</async>
+                        <pid>!data.pid</pid>
+                      </arguments>
+                      <_context_data_analysis>
+                        <probes/>
+                        <ips/>
+                      </_context_data_analysis>
+                      <report>
+                        <url/>
+                      </report>
+                    </parameters>
+                    <code>
+                      <prepare/>
+                      <finalize output="result"/>
+                      <update output="result"/>
+                      <rescue output="result"/>
+                    </code>
+                    <annotations>
+                      <_timing>
+                        <_timing_weight/>
+                        <_timing_avg/>
+                        <explanations/>
+                      </_timing>
+                      <_notes>
+                        <_notes_general/>
+                      </_notes>
+                    </annotations>
+                    <input/>
+                    <output/>
+                    <implementation>
+                      <description/>
+                    </implementation>
+                    <code>
+                      <description/>
+                    </code>
+                  </call>
+                  <loop mode="pre_test" condition="data.progress != 'FINITO'">
+                    <call id="a4" endpoint="correlation">
+                      <parameters>
+                        <label>wait for progress</label>
+                        <method>:post</method>
+                        <arguments>
+                          <pid>!data.pid</pid>
+                        </arguments>
+                        <_context_data_analysis>
+                          <probes/>
+                          <ips/>
+                        </_context_data_analysis>
+                        <report>
+                          <url/>
+                        </report>
+                      </parameters>
+                      <code>
+                        <prepare/>
+                        <finalize output="result">p result;data.progress = result["progress"]</finalize>
+                        <update output="result"/>
+                        <rescue output="result"/>
+                      </code>
+                      <annotations>
+                        <_timing>
+                          <_timing_weight/>
+                          <_timing_avg/>
+                          <explanations/>
+                        </_timing>
+                        <_notes>
+                          <_notes_general/>
+                        </_notes>
+                      </annotations>
+                      <input/>
+                      <output/>
+                      <implementation>
+                        <description/>
+                      </implementation>
+                      <code>
+                        <description/>
+                      </code>
+                    </call>
+                  </loop>
+                </description>
+              </description>
+              <transformation>
+                <description type="copy"/>
+                <dataelements type="none"/>
+                <endpoints type="none"/>
+              </transformation>
+            </testset>
+                
