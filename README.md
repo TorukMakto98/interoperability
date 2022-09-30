@@ -1,5 +1,5 @@
-#Assignment 2 - Documentation
-###Mattes Barkowski - Interoperability
+# Assignment 2 - Documentation
+### Mattes Barkowski - Interoperability
 
 This readme provides some general information on the setup of my database dump. To import my database in your local
 postgre database you can simply import it over pgAdmin or some other postgre cli tool. If you need my environmental 
